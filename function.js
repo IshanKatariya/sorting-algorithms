@@ -512,56 +512,56 @@ function updateVideo(algorithm) {
 var speedBar = document.querySelector(".speed-bar");
 
 function adjustSpeed() {
-    let speedValue = Number(speedBar.value);
-    let animationSpeed;
     
-    switch (speedValue) {
+    switch (Number(speedBar.value)) {
         case 1:
-            animationSpeed = speedValue * 1000;
+            animationSpeed = (speedBar.value) * 1000;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 10 km/h😪`;
             break;
         case 2:
-            animationSpeed = speedValue * 450;
+            animationSpeed = (speedBar.value) * 450;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 20 km/h🥱`;
             break;
         case 3:
-            animationSpeed = speedValue * 266.66;
+            animationSpeed = (speedBar.value) * 266.66;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 30 km/h😑`;
             break;
         case 4:
-            animationSpeed = speedValue * 175;
+            animationSpeed = (speedBar.value) * 175;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 40 km/h😐`;
             break;
         case 5:
-            animationSpeed = speedValue * 120;
+            animationSpeed = (speedBar.value) * 120;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 50 km/h😁`;
             break;
         case 6:
-            animationSpeed = speedValue * 83.33;
+            animationSpeed = (speedBar.value) * 83.33;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 60 km/h😶`;
             break;
         case 7:
-            animationSpeed = speedValue * 57.14;
+            animationSpeed = (speedBar.value) * 57.14;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 70 km/h😮`;
             break;
         case 8:
-            animationSpeed = speedValue * 37.5;
+            animationSpeed = (speedBar.value) * 37.5;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 80 km/h😲`;
             break;
         case 9:
-            animationSpeed = speedValue * 22.22;
+            animationSpeed = (speedBar.value) * 22.22;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 90 km/h 😵‍💫`;
             break;
         case 10:
-            animationSpeed = speedValue * 10;
+            animationSpeed = (speedBar.value) * 10;
             document.getElementById("current-speed").innerHTML = ` Current Speed : 100 km/h🫨 `;
             break;
+
         default:
-            console.warn("Invalid speed value detected");
+            break;
     }
 }
 
-
 speedBar.addEventListener("input", adjustSpeed);
+
+
 
 
