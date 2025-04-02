@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Tree Visualization</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: "Geist Mono", sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            text-align: center;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 2px solid #475569;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #334155;
+            color: #e2e8f0;
+            outline: none;
+            text-align: center;
+            transition: 0.3s ease-in-out;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+            background: #1e293b;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #64748b;
+            color: white;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: #38bdf8;
+            transform: scale(1.05);
+        }
+
+        .canvas-container {
+            overflow-x: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        canvas {
+            border: 2px solid #64748b;
+            background: #0f172a;
+            border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+            button {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🌲 Binary Tree Visualization 🌲</h1>
+
+    <div class="controls">
+        <input type="text" id="nodeValue" placeholder="Enter numbers (e.g., 5,2,8,1,3)">
+        <button onclick="generateTree()">Generate Tree</button>
+        <button onclick="balanceTree()">Balance Tree</button>
+        <button onclick="resetTree()">Reset</button>
+        <br>
+        <button onclick="animatePreOrder()">Preorder</button>
+        <button onclick="animateInOrder()">Inorder</button>
+        <button onclick="animatePostOrder()">Postorder</button>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="treeCanvas" width="800" height="500"></canvas>
+    </div>
+    <br><br><br>
+    <div id="traversalOutput" class="traversal-output"></div>
+    <script>
+        class TreeNode {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+            }
+        }
+
+        class BST {
+            constructor() {
+                this.root = null;
+            }
+
+            insert(value) {
+                this.root = this._insertRec(this.root, value);
+            }
+
+            _insertRec(node, value) {
+                if (!node) return new TreeNode(value);
+                if (value < node.value) node.left = this._insertRec(node.left, value);
+                else node.right = this._insertRec(node.right, value);
+                return node;
+            }
+
+            toSortedArray() {
+                let result = [];
+                this._inOrder(this.root, result);
+                return result;
+            }
+
+            _inOrder(node, result) {
+                if (!node) return;
+                this._inOrder(node.left, result);
+                result.push(node.value);
+                this._inOrder(node.right, result);
+            }
+
+            balanceTree() {
+                let sortedArray = this.toSortedArray();
+                console.log("Sorted array before balancing:", sortedArray);
+
+                this.root = this._buildBalancedTree(sortedArray, 0, sortedArray.length - 1);
+                console.log("Final tree structure:", JSON.stringify(this.root, null, 2));
+
+            }
+
+            _buildBalancedTree(arr, start, end) {
+                if (start > end) return null;
+
+                let mid = Math.ceil((start + end) / 2);
+                console.log("Inserting node:", arr[mid]); 
+
+                let node = new TreeNode(arr[mid]);
+
+                node.left = this._buildBalancedTree(arr, start, mid - 1);
+                node.right = this._buildBalancedTree(arr, mid + 1, end);
+
+                return node;
+            }
+
+
+
+            preorderTraversal(node, result = []) {
+                if (!node) return;
+                result.push(node.value);
+                this.preorderTraversal(node.left, result);
+                this.preorderTraversal(node.right, result);
+                return result;
+            }
+
+            inorderTraversal(node, result = []) {
+                if (!node) return;
+                this.inorderTraversal(node.left, result);
+                result.push(node.value);
+                this.inorderTraversal(node.right, result);
+                return result;
+            }
+
+            postorderTraversal(node, result = []) {
+                if (!node) return;
+                this.postorderTraversal(node.left, result);
+                this.postorderTraversal(node.right, result);
+                result.push(node.value);
+                return result;
+            }
+        }
+
+        let bst = new BST();
+        const canvas = document.getElementById("treeCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function generateTree() {
+            const input = document.getElementById('nodeValue').value;
+            if (input.trim() === '') {
+                alert("Please enter numbers separated by commas!");
+                return;
+            }
+
+            let values = input.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+
+            bst = new BST();
+            values.forEach(value => bst.insert(value));
+
+            drawTree();
+        }
+
+        function balanceTree() {
+            if (!bst.root) {
+                alert("Tree is empty! Please generate a tree first.");
+                return;
+            }
+            bst.balanceTree();
+            drawTree();
+        }
+
+        function resetTree() {
+            bst.root = null;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            nodeValue.value = '';
+        }
+
+        function drawTree(node = bst.root, x = 400, y = 50, offset = 250, depth = 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    _draw(node, x, y, offset, depth);
+}
+
+function _draw(node, x, y, offset, depth) {
+    if (!node) return;
+
+    const nodeRadius = 20;
+    const levelOffset = Math.max(80, offset / 1.5);  // 🔹 Increase spacing between nodes
+    console.log(`Node ${node.value} at (${x}, ${y})`);  
+
+    ctx.fillStyle = "#38bdf8";
+    ctx.beginPath();
+    ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "white";
+    ctx.font = "16px Arial";
+    ctx.fillText(node.value, x - 5, y + 5);
+
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 2;
+
+    if (node.left) {
+        let childX = x - levelOffset;
+        let childY = y + 80;
+        drawLine(x, y, childX, childY, nodeRadius);
+        _draw(node.left, childX, childY, levelOffset, depth + 1);
+    }
+
+    if (node.right) {
+        let childX = x + levelOffset;
+        let childY = y + 80;
+        drawLine(x, y, childX, childY, nodeRadius);
+        _draw(node.right, childX, childY, levelOffset, depth + 1);
+    }
+}
+
+        function drawLine(x1, y1, x2, y2, radius) {
+            let angle = Math.atan2(y2 - y1, x2 - x1);
+            ctx.beginPath();
+            ctx.moveTo(x1 + radius * Math.cos(angle), y1 + radius * Math.sin(angle));
+            ctx.lineTo(x2 - radius * Math.cos(angle), y2 - radius * Math.sin(angle));
+            ctx.stroke();
+        }
+
+        function updateTraversalText(type, traversal) {
+            document.getElementById('traversalOutput').innerText = `${type} Traversal: ${traversal.join(" → ")}`;
+        }
+
+        function animatePreOrder() {
+            updateTraversalText("Preorder", bst.preorderTraversal(bst.root));
+        }
+
+        function animateInOrder() {
+            updateTraversalText("Inorder", bst.inorderTraversal(bst.root));
+        }
+
+        function animatePostOrder() {
+            updateTraversalText("Postorder", bst.postorderTraversal(bst.root));
+        }
+    </script>
+</body>
+
+</html>

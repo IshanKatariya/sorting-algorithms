@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Sorting Algorithms</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Inconsolata:wght@200..900&family=Phudu:wght@300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+	<div class="wrapper d-flex align-items-stretch">
+		<div class="title">
+
+		</div>
+		<nav id="sidebar">
+			<div class="custom-menu">
+				<button type="button" id="sidebarCollapse" class="btn btn-primary">
+					<i class="fa fa-bars"></i>
+					<span class="sr-only">Toggle Menu</span>
+				</button>
+			</div>
+			<div class="p-4">
+				<h1><a href="index.html" class="logo">Sorting Algorithms</a></h1>
+				<ul class="list-unstyled components mb-5">
+					<li class="">
+						<button id="algo"
+							onclick="setAlgorithm('bubbleSort'),selectAlgorithm('bubbleSort') , updateVideo('bubbleSort') "
+							data-algorithm="bubbleSort">Bubble Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+							onclick="setAlgorithm('selectionSort') ,selectAlgorithm('selectionSort') , updateVideo('selectionSort')"
+							data-algorithm="selectionSort">Selection Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+							onclick="setAlgorithm('insertionSort'), selectAlgorithm('insertionSort') , updateVideo('insertionSort')"
+							data-algorithm="insertionSort">Insertion Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+							onclick="setAlgorithm('quickSort'), selectAlgorithm('quickSort') , updateVideo('quickSort')"
+							data-algorithm="quickSort">Quick Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+							onclick="setAlgorithm('mergeSort') , selectAlgorithm('mergeSort') ,updateVideo('mergeSort')"
+							data-algorithm="mergeSort">Merge Sort</button>
+					</li>
+				</ul>
+
+				<h1><a href="tree.html" class="logo">Binary Tree Visualization</a></h1>
+
+
+
+
+			</div>
+		</nav>
+		<div class="title">
+		</div>
+		<div id="content" class=" ">
+			<div class="heading-algo">
+				<h3 style="color: #27374D; font-weight: bold; margin-left: 4vh; cursor: pointer;  " class="sorting-heading">Sorting Visualizer</h3>
+				<ul class="list-unstyled components mb-5 algo-row">
+					<li class="">
+						<button id="algo"
+						onclick="setAlgorithm('bubbleSort'),selectAlgorithm('bubbleSort') , updateVideo('bubbleSort') "
+						data-algorithm="bubbleSort">Bubble Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+						onclick="setAlgorithm('selectionSort') ,selectAlgorithm('selectionSort') , updateVideo('selectionSort')"
+						data-algorithm="selectionSort">Selection Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+							onclick="setAlgorithm('insertionSort'), selectAlgorithm('insertionSort') , updateVideo('insertionSort')"
+							data-algorithm="insertionSort">Insertion Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+						onclick="setAlgorithm('quickSort'), selectAlgorithm('quickSort') , updateVideo('quickSort')"
+						data-algorithm="quickSort">Quick Sort</button>
+					</li>
+					<li>
+						<button id="algo"
+						onclick="setAlgorithm('mergeSort') , selectAlgorithm('mergeSort') ,updateVideo('mergeSort')"
+							data-algorithm="mergeSort">Merge Sort</button>
+						</li>
+					</ul>
+				</div>
+				<br>
+				<br>
+				<p id="algo-selectMsg" > <b>Please Choose a Sorting Algorithm from the Sidebar</b></p>
+			<p id="guess"></p>
+			<label for="arrayInput">
+				<input type="text" id="arrayInput" placeholder="Enter numbers separated by commas">
+
+				<button onclick="setArray()" id="run-button">Set Array</button>
+				<button onclick="handleSort()" id="sort-btn">Sort</button>
+				<button onclick="resetArray()" id="reset-btn">Reset</button>
+			</label>
+
+			<br>
+
+			<div class="code-heading">
+				<h4 style="color: #DDE6ED; ">Code Snippets</h4>
+				<h4>Sorting Animation</h4>
+			</div>
+			<div class="codes">
+				<pre id="algorithm-code">
+
+				</pre>
+
+				<div class="animation-area" id="animation-area">
+						<p id="speed"><i>Wanna change the speed of the animation?You can do that yourself! 😎</i></p>
+						<p  id="current-speed">Current Speed: 50 km/h😁</p>
+						<input type="range" min="1" max="10" value="5" class="speed-bar">
+			
+					<div class="bars" id="bars"></div>
+
+
+
+
+
+
+				</div>
+			</div>
+
+
+			<div class="explain-area">
+				<div>
+					<h4 class="explain-heading">Explanation</h2>
+				</div>
+				<div class="explanation">
+					<p id="explain">
+						Select an algorithm to see its explanation here.
+					</p>
+
+					<div class="video">
+						<iframe id="sortVideo" class="video-player" width="560" height="315" frameborder="0"
+							allowfullscreen></iframe>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+	<script src="jquery.min.js"></script>
+	<script src="popper.js"></script>
+	<script src="bootstrap.min.js"></script>
+	<script src="main.js"></script>
+	<script src="function.js"></script>
+
+</body>
+
+</html>
